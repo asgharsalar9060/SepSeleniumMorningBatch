@@ -30,22 +30,58 @@ public class JSUtil {
 
 	public static void sendKeysUsingJSWithId(WebDriver driver, String name, String value) {
 		JavascriptExecutor js = ((JavascriptExecutor) driver);
-		js.executeScript("document.getElementById('"+name+"').value='"+value+"'");
+		js.executeScript("document.getElementById('" + name + "').value='" + value + "'");
 	}
-	
+
 	public static void sendKeysUsingJSWithName(WebDriver driver, String name, String value) {
 		JavascriptExecutor js = ((JavascriptExecutor) driver);
-		js.executeScript("document.getElementById('"+name+"').value='"+value+"'");
+		js.executeScript("document.getElementById('" + name + "').value='" + value + "'");
 	}
-	
+
 	public static void clickElementByJS(WebElement element, WebDriver driver) {
 		JavascriptExecutor js = ((JavascriptExecutor) driver);
 		js.executeScript("arguments[0].click();", element);
 	}
-	
+
 	public static void drawBorder(WebDriver driver, WebElement element) {
 		JavascriptExecutor js = ((JavascriptExecutor) driver);
 		js.executeScript("arguments[0].style.border='3px solid blue'", element);
+	}
+
+	public static void flash(WebElement element, WebDriver driver) {
+		JavascriptExecutor js = ((JavascriptExecutor) driver);
+		String bgcolor = element.getCssValue("backgroundColor");
+		for (int i = 0; i < 30; i++) {
+			changeColor("rgb(0,200,0)", element, driver);
+			changeColor(bgcolor, element, driver);
+		}
+	}
+
+	private static void changeColor(String color, WebElement element, WebDriver driver) {
+		JavascriptExecutor js = ((JavascriptExecutor) driver);
+		js.executeScript("arguments[0].style.backgroundColor = '" + color + "'", element);
+
+		try {
+			Thread.sleep(20);
+		} catch (InterruptedException e) {
+
+		}
+	}
+
+	public static String getPageInnerText(WebDriver driver) {
+		JavascriptExecutor js = ((JavascriptExecutor) driver);
+		String pageText = js.executeScript("return document.documentElement.innerText;").toString();
+		return pageText;
+	}
+
+	public static void scrollPageDown(WebDriver driver) {
+		JavascriptExecutor js = ((JavascriptExecutor) driver);
+		js.executeScript("window.scrollTo(0,document.body.scrollHeight)");
+	}
+	
+	public static void scrollIntoView(WebElement element, WebDriver driver) {
+		JavascriptExecutor js = ((JavascriptExecutor) driver);
+		js.executeScript("arguments[0].scrollIntoView(true);", element);
 	}
 
 }

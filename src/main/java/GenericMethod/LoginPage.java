@@ -4,6 +4,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import JavascriptExecutor.JSUtil;
+
 public class LoginPage {
 
 	WebDriver driver;
@@ -23,6 +25,7 @@ public class LoginPage {
 		WebElement element = null;
 		try {
 			element = driver.findElement(locator);
+			JSUtil.flash(element, driver);
 		} catch (Exception e) {
 			System.out.println("Some exception occured while creating the web element");
 			System.out.println(e.getMessage());

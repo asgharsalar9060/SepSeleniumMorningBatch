@@ -22,7 +22,7 @@ public class JSUtilTest {
 
 		Thread.sleep(6000);
 		
-//		System.out.println(JSUtil.getTitleByJS(driver));
+		System.out.println(JSUtil.getTitleByJS(driver));
 //		JSUtil.generateAlert(driver, "This is an alert!");
 //		JSUtil.refreshBrowserByJS(driver);
 		
@@ -32,8 +32,29 @@ public class JSUtilTest {
 //		WebElement loginButton = driver.findElement(By.id("ControlGroupLoginAgentView_AgentLoginView_ButtonLogIn"));
 //		JSUtil.clickElementByJS(loginButton, driver);
 		
-		WebElement content = driver.findElement(By.xpath("//div[@class='content']"));
-		JSUtil.drawBorder(driver, content);
+//		WebElement content = driver.findElement(By.xpath("//div[@class='content']"));
+//		JSUtil.drawBorder(driver, content);
+//		
+//		WebElement username = driver.findElement(By.id("ControlGroupLoginAgentView_AgentLoginView_TextBoxUserID"));
+//		WebElement password = driver.findElement(By.id("ControlGroupLoginAgentView_AgentLoginView_PasswordFieldPassword"));
+//		
+//		JSUtil.flash(username, driver);
+//		JSUtil.flash(password, driver);
+		
+//		String innerText = JSUtil.getPageInnerText(driver);
+//		if(innerText.contains("Privacy Policy")) {
+//			System.out.println("Privacy Policy exists...");
+//		}else {
+//			System.out.println("Privacy Policy should be added...");
+//		}
+//		
+//		System.out.println(JSUtil.getPageInnerText(driver));
+		
+//		JSUtil.scrollPageDown(driver);
+		
+		WebElement trackYourBag = driver.findElement(By.xpath("//a[text()='Track Your Bag']"));
+		JSUtil.scrollIntoView(trackYourBag, driver);
+		JSUtil.drawBorder(driver, trackYourBag);
 		
 		Thread.sleep(3000);
 		driver.quit();
