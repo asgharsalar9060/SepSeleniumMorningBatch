@@ -8,9 +8,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import ExcelLibUtil.Xls_Reader;
 import io.github.bonigarcia.wdm.WebDriverManager;
 
-public class UserData {
+public class HashMapPlusFetchingDataFromExcel {
 
 	public static void main(String[] args) throws InterruptedException {
 
@@ -33,7 +34,7 @@ public class UserData {
 //		driver.findElement(By.name("password")).sendKeys(userMap.get("marketer").split("_")[1]);
 
 		doLogin(driver, getUserMap(), "admin");
-		
+
 		Thread.sleep(2000);
 		driver.quit();
 	}
@@ -44,8 +45,9 @@ public class UserData {
 		userMap.put("admin", "admin@gmail.com_admin123");
 		userMap.put("marketer", "marketer@gmail.com_marketer123");
 		userMap.put("manager", "manager@gmail.com_manager123");
-		
+
 		return userMap;
+
 	}
 
 	public static void doLogin(WebDriver driver, Map<String, String> userMap, String userKey) {
