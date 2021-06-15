@@ -23,24 +23,32 @@ public class LoginPageExplicitWaitExample {
 		By password = By.name("password");
 		By loginButton = By.xpath("//input[@type='submit' and @value='Login']");
 		By signUpLink = By.xpath("//a[text()='Sign Up']");
+		By frame = By.name("mainpanel");
+		By report = By.xpath("//a[text()='Reports']");
 
 		driver.get("https://classic.freecrm.com/index.html");
 
 		LoginPage lp = new LoginPage(driver);
 
-		lp.waitForTitleToBePresent("Free CRM - CRM software for customer relationship management, sales, and support.", 10);
-		System.out.println(driver.getTitle());//we can do this when we don't return anything in the method
+//		lp.waitForTitleToBePresent("Free CRM - CRM software for customer relationship management, sales, and support.", 10);
+//		System.out.println(driver.getTitle());//we can do this when we don't return anything in the method
 		
 		String title = lp.waitForTitleToBePresent("Free CRM - CRM software for customer relationship management, sales, and support.", 10);
 		System.out.println(title);
 		
 		//lp.clickWhenReady(signUpLink, 5);
 
-		lp.waitForElementToBePresent(email, 15).sendKeys("AsgharSalar");
+		//lp.waitForElementToBePresent(email, 15).sendKeys("AsgharSalar");
+		lp.waitForElementToBePresentWithFluentWait(driver, email).sendKeys("AsgharSalar");
 		lp.doSendKeys(password, "Salar@123");
-		// lp.doClick(loginButton);
+		lp.doClick(loginButton);
+		
+		lp.waitForFrameWithFluentWait(driver, frame);
+		//lp.waitForFrame(frame, 5);
+		
+		lp.doClick(report);
 
-		lp.waitForElementToBePresent(loginButton, 5).click();
+		//lp.waitForElementToBePresent(loginButton, 5).click();
 		
 		//driver.quit();
 

@@ -1,12 +1,16 @@
 package GenericMethod;
 
+import java.time.Duration;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class LoginPage {
@@ -89,9 +93,28 @@ public class LoginPage {
 	
 	//ExplicitWaitUtils
 	
+	/**
+	 * This method is used to wait for the visibility of all elements to be present
+	 * @param elements
+	 * @param timeout
+	 */
 	public void visibilityOfAllElements(List<WebElement> elements, int timeout) {
 		WebDriverWait wait = new WebDriverWait(driver, timeout);
 		wait.until(ExpectedConditions.visibilityOfAllElements(elements));
+	}
+	
+	/**
+	 * This method is used to wait with Fluent Wait for the visibility of all elements to be present
+	 * @param driver
+	 * @param locator
+	 * @return
+	 */
+	public List<WebElement> visibilityOfAllElementsWithFluentWait(WebDriver driver, By locator) {
+		Wait<WebDriver> wait = new FluentWait<WebDriver>(driver)
+								.withTimeout(Duration.ofSeconds(5))
+								.pollingEvery(Duration.ofSeconds(1))
+								.ignoring(NoSuchElementException.class);
+		return wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));						
 	}
 
 	/**
@@ -107,6 +130,20 @@ public class LoginPage {
 	}
 	
 	/**
+	 * This method is used to wait with Fluent Wait for element to be present
+	 * @param driver
+	 * @param locator
+	 * @return
+	 */
+	public WebElement waitForElementToBePresentWithFluentWait(WebDriver driver, By locator) {
+		Wait<WebDriver> wait = new FluentWait<WebDriver>(driver)
+								.withTimeout(Duration.ofSeconds(5))
+								.pollingEvery(Duration.ofSeconds(1))
+								.ignoring(NoSuchElementException.class);
+		return wait.until(ExpectedConditions.presenceOfElementLocated(locator));						
+	}
+	
+	/**
 	 * This method is used to wait for element to be clickable
 	 * @param locator
 	 * @param timeout
@@ -118,6 +155,11 @@ public class LoginPage {
 		return getElement(locator);
 	}
 	
+	/**
+	 * This method is used to wait for element to be present
+	 * @param locator
+	 * @param timeout
+	 */
 	public void clickWhenReady(By locator, int timeout) {
 		WebDriverWait wait = new WebDriverWait(driver, timeout);
 		wait.until(ExpectedConditions.elementToBeClickable(locator));
@@ -161,24 +203,53 @@ public class LoginPage {
 		return driver.getTitle();
 	}
 	
+	/**
+	 * This method is used to wait for url
+	 * @param url
+	 * @param timeout
+	 * @return
+	 */
 	public String waitForUrl(String url, int timeout) {
 		WebDriverWait wait = new WebDriverWait(driver, timeout);
 		wait.until(ExpectedConditions.urlContains(url));
 		return driver.getCurrentUrl();
 	}
 	
+	/**
+	 * This method is used to wait for JS alert to be present
+	 * @param timeout
+	 * @return
+	 */
 	public boolean waitForAlertToBePresent(int timeout) {
 		WebDriverWait wait = new WebDriverWait(driver, timeout);
 		wait.until(ExpectedConditions.alertIsPresent());//it's just for JS alerts not others
 		return true;
 	}
 	
-	public WebElement waitForFrame(By locator, int timeout) {
+	/**
+	 * This method is used to wait for frame to be present
+	 * @param locator
+	 * @param timeout
+	 * @return
+	 */
+	public void waitForFrame(By locator, int timeout) {
 		WebDriverWait wait = new WebDriverWait(driver, timeout);
 		wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(locator));
-		return getElement(locator); 
+		//return getElement(locator); 
 	}
 	
-	
+	/**
+	 * This method is used to wait with Fluent Wait for frame to be present
+	 * @param driver
+	 * @param locator
+	 * @return
+	 */
+	public WebDriver waitForFrameWithFluentWait(WebDriver driver, By locator) {
+		Wait<WebDriver> wait = new FluentWait<WebDriver>(driver)
+								.withTimeout(Duration.ofSeconds(5))
+								.pollingEvery(Duration.ofSeconds(1))
+								.ignoring(NoSuchElementException.class);
+		return wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(locator));						
+	}
 
 }
