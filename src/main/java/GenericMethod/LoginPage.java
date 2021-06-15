@@ -1,10 +1,13 @@
 package GenericMethod;
 
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-
-import JavascriptExecutor.JSUtil;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class LoginPage {
 
@@ -25,7 +28,7 @@ public class LoginPage {
 		WebElement element = null;
 		try {
 			element = driver.findElement(locator);
-			JSUtil.flash(element, driver);
+			//JSUtil.flash(element, driver);
 		} catch (Exception e) {
 			System.out.println("Some exception occured while creating the web element");
 			System.out.println(e.getMessage());
@@ -46,6 +49,17 @@ public class LoginPage {
 			System.out.println(e.getMessage());
 		}
 	}
+	
+	/**
+	 * This method clicks on the element using actions class
+	 * @param locator
+	 */
+	
+	public void doActionsClick(By locator) {
+		Actions action = new Actions(driver);
+		WebElement element = driver.findElement(locator);
+		action.click(element).perform();
+	}
 
 	/**
 	 * This method is used to pass value to the web element
@@ -59,7 +73,112 @@ public class LoginPage {
 		} catch (Exception e) {
 			System.out.println("Some exception occured passing value to the web element");
 			System.out.println(e.getMessage());
-		}
+		}	
 	}
+	
+	/**
+	 * This method sends keys using actions class
+	 * @param locator
+	 * @param value
+	 */
+	public void doActionsSendKeys(By locator, String value) {
+		Actions action = new Actions(driver);
+		WebElement element = driver.findElement(locator);
+		action.sendKeys(element, value).perform();
+	}
+	
+	//ExplicitWaitUtils
+	
+	public void visibilityOfAllElements(List<WebElement> elements, int timeout) {
+		WebDriverWait wait = new WebDriverWait(driver, timeout);
+		wait.until(ExpectedConditions.visibilityOfAllElements(elements));
+	}
+
+	/**
+	 * This method is used to wait for element to be present
+	 * @param locator
+	 * @param timeout
+	 * @return
+	 */
+	public WebElement waitForElementToBePresent(By locator, int timeout) {
+		WebDriverWait wait = new WebDriverWait(driver, timeout);
+		wait.until(ExpectedConditions.presenceOfElementLocated(locator));
+		return getElement(locator);
+	}
+	
+	/**
+	 * This method is used to wait for element to be clickable
+	 * @param locator
+	 * @param timeout
+	 * @return
+	 */
+	public WebElement waitForElementToBeClickable(By locator, int timeout) {
+		WebDriverWait wait = new WebDriverWait(driver, timeout);
+		wait.until(ExpectedConditions.elementToBeClickable(locator));
+		return getElement(locator);
+	}
+	
+	public void clickWhenReady(By locator, int timeout) {
+		WebDriverWait wait = new WebDriverWait(driver, timeout);
+		wait.until(ExpectedConditions.elementToBeClickable(locator));
+		getElement(locator).click();
+	}
+	
+	/**
+	 * This method is used to wait for element to be visible but it works with web element
+	 * @param locator
+	 * @param timeout
+	 * @return
+	 */
+	public WebElement waitForElementToBeVisible(By locator, int timeout) {
+		WebElement element = getElement(locator);
+		WebDriverWait wait = new WebDriverWait(driver, timeout);
+		wait.until(ExpectedConditions.visibilityOf(element));
+		return element;
+	}
+	
+	/**
+	 * This method is used to wait for element to be visible but it works with locator
+	 * @param locator
+	 * @param timeout
+	 * @return
+	 */
+	public WebElement waitForElementVisibilityLocated(By locator, int timeout) {
+		WebDriverWait wait = new WebDriverWait(driver, timeout);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+		return getElement(locator);
+	}
+	
+	/**
+	 * This method is used to wait for title to be present
+	 * @param title
+	 * @param timeout
+	 * @return
+	 */
+	public String waitForTitleToBePresent(String title, int timeout) {
+		WebDriverWait wait = new WebDriverWait(driver, timeout);
+		wait.until(ExpectedConditions.titleIs(title));
+		return driver.getTitle();
+	}
+	
+	public String waitForUrl(String url, int timeout) {
+		WebDriverWait wait = new WebDriverWait(driver, timeout);
+		wait.until(ExpectedConditions.urlContains(url));
+		return driver.getCurrentUrl();
+	}
+	
+	public boolean waitForAlertToBePresent(int timeout) {
+		WebDriverWait wait = new WebDriverWait(driver, timeout);
+		wait.until(ExpectedConditions.alertIsPresent());//it's just for JS alerts not others
+		return true;
+	}
+	
+	public WebElement waitForFrame(By locator, int timeout) {
+		WebDriverWait wait = new WebDriverWait(driver, timeout);
+		wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(locator));
+		return getElement(locator); 
+	}
+	
+	
 
 }

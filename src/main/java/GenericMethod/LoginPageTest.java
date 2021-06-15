@@ -25,11 +25,13 @@ public class LoginPageTest {
 		
 		LoginPage lp = new LoginPage(driver);
 		
-		lp.doSendKeys(email, "azgharsalar@gmail.com");
-		lp.doSendKeys(password, "Salar@123");
-		lp.doClick(loginBtn);
+//		lp.doSendKeys(email, "azgharsalar@gmail.com");
+//		lp.doSendKeys(password, "Salar@123");
+//		lp.doClick(loginBtn);
 		
-		
+		lp.doActionsSendKeys(email, "azgharsalar@gmail.com");
+		lp.doActionsSendKeys(password, "Salar@123");
+		lp.doActionsClick(loginBtn);
 		
 	}
 
